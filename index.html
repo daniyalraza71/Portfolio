@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniyal Raza | Advanced Frontend & CMS Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Outfit', 'sans-serif'],
+                        'body': ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#ec4899',
+                        accent: '#06b6d4',
+                        dark: '#0f172a',
+                        darker: '#020617',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --cursor-size: 20px;
+            --cursor-hover-size: 60px;
+        }
+
+        * {
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #020617;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: #6366f1;
+            transition: width 0.2s, height 0.2s;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            transition: width 0.3s, height 0.3s, border-color 0.3s;
+        }
+
+        .cursor-hover .cursor-dot {
+            width: 12px;
+            height: 12px;
+            background: #ec4899;
+        }
+
+        .cursor-hover .cursor-outline {
+            width: 60px;
+            height: 60px;
+            border-color: rgba(236, 72, 153, 0.3);
+            background: rgba(236, 72, 153, 0.05);
+        }
+
+        /* Noise Texture */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, #6366f1, #ec4899, #06b6d4);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Magnetic Button */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Project Card 3D */
+        .project-card {
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+        }
+
+        .project-card .card-shine {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .project-card:hover .card-shine {
+            transform: translateX(100%);
+        }
+
+        /* Skill Tag Animation */
+        .skill-tag {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .skill-tag:hover::before {
+            left: 100%;
+        }
+
+        /* Text Scramble Effect */
+        .scramble-text {
+            display: inline-block;
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #ec4899, #06b6d4);
+            z-index: 100;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+
+        /* Navigation */
+        .nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav-visible {
+            transform: translateY(0);
+        }
+
+        /* Hero Background */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 40%);
+            transform: translate(-50%, -50%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Grid Pattern */
+        .grid-pattern {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Loading Screen */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: #020617;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+        }
+
+        /* Smooth Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            clip-path: circle(0% at calc(100% - 40px) 40px);
+            transition: clip-path 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .mobile-menu.active {
+            clip-path: circle(150% at calc(100% - 40px) 40px);
+        }
+
+        /* Stats Counter */
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-white">
+
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-text font-display">DR</div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Noise Overlay -->
+    <div class="noise"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-transform duration-500 nav-hidden">
+        <div class="glass mx-4 mt-4 rounded-2xl px-6 py-4 max-w-7xl mx-auto">
+            <div class="flex items-center justify-between">
+                <a href="#hero" class="font-display text-2xl font-bold gradient-text magnetic-target">DR.</a>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#about" class="text-sm font-medium text-slate-300 hover:text-white transition-colors magnetic-target">About</a>
+                    <a href="#skills" class="text-sm font-medium text-slate-300 hover:text-white transition-colors magnetic-target">Skills</a>
+                    <a href="#projects" class="text-sm font-medium text-slate-300 hover:text-white transition-colors magnetic-target">Projects</a>
+                    <a href="#contact" class="text-sm font-medium text-slate-300 hover:text-white transition-colors magnetic-target">Contact</a>
+                    <a href="#" onclick="downloadCV()" class="magnetic-btn px-6 py-2.5 rounded-full bg-gradient-to-r from-primary to-secondary text-white text-sm font-semibold hover:shadow-lg hover:shadow-primary/25 transition-shadow magnetic-target">
+                        Download CV
+                    </a>
+                </div>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden magnetic-target p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-0 z-30 bg-darker flex items-center justify-center md:hidden">
+        <div class="flex flex-col items-center gap-8">
+            <a href="#about" onclick="toggleMobileMenu()" class="text-3xl font-display font-bold text-white hover:text-primary transition-colors">About</a>
+            <a href="#skills" onclick="toggleMobileMenu()" class="text-3xl font-display font-bold text-white hover:text-primary transition-colors">Skills</a>
+            <a href="#projects" onclick="toggleMobileMenu()" class="text-3xl font-display font-bold text-white hover:text-primary transition-colors">Projects</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="text-3xl font-display font-bold text-white hover:text-primary transition-colors">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden grid-pattern">
+        <div class="hero-bg"></div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 reveal">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                <span class="text-sm font-medium text-slate-300">Available for freelance work</span>
+            </div>
+
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 reveal" style="transition-delay: 0.1s">
+                <span class="block text-white">Daniyal</span>
+                <span class="block gradient-text">Raza</span>
+            </h1>
+
+            <div class="h-8 md:h-12 mb-8 reveal" style="transition-delay: 0.2s">
+                <span id="typewriter" class="font-display text-xl md:text-3xl font-medium text-slate-400"></span>
+                <span class="animate-pulse text-primary">|</span>
+            </div>
+
+            <p class="max-w-2xl mx-auto text-lg text-slate-400 mb-12 reveal" style="transition-delay: 0.3s">
+                Advanced Frontend & CMS Developer from Karachi, Pakistan. Crafting digital experiences with 3+ years of expertise in building scalable, high-performance web solutions.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal" style="transition-delay: 0.4s">
+                <a href="#projects" class="magnetic-btn group px-8 py-4 rounded-full bg-white text-darker font-semibold hover:bg-slate-200 transition-colors flex items-center gap-2 magnetic-target">
+                    View My Work
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+                <a href="#contact" class="magnetic-btn px-8 py-4 rounded-full glass text-white font-semibold hover:bg-white/10 transition-colors magnetic-target">
+                    Let's Talk
+                </a>
+            </div>
+
+            <!-- Floating Elements -->
+            <div class="absolute top-20 left-10 w-20 h-20 rounded-full bg-primary/20 blur-xl animate-float hidden lg:block"></div>
+            <div class="absolute bottom-20 right-10 w-32 h-32 rounded-full bg-secondary/20 blur-xl animate-float hidden lg:block" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 right-20 w-16 h-16 rounded-full bg-accent/20 blur-xl animate-float hidden lg:block" style="animation-delay: 4s;"></div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 border-y border-slate-800/50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center reveal">
+                    <div class="stat-number font-display text-4xl md:text-5xl font-bold gradient-text mb-2" data-target="3">0</div>
+                    <div class="text-sm text-slate-400 uppercase tracking-wider">Years Experience</div>
+                </div>
+                <div class="text-center reveal" style="transition-delay: 0.1s">
+                    <div class="stat-number font-display text-4xl md:text-5xl font-bold gradient-text mb-2" data-target="50">0</div>
+                    <div class="text-sm text-slate-400 uppercase tracking-wider">Projects Completed</div>
+                </div>
+                <div class="text-center reveal" style="transition-delay: 0.2s">
+                    <div class="stat-number font-display text-4xl md:text-5xl font-bold gradient-text mb-2" data-target="30">0</div>
+                    <div class="text-sm text-slate-400 uppercase tracking-wider">Happy Clients</div>
+                </div>
+                <div class="text-center reveal" style="transition-delay: 0.3s">
+                    <div class="stat-number font-display text-4xl md:text-5xl font-bold gradient-text mb-2" data-target="99">0</div>
+                    <div class="text-sm text-slate-400 uppercase tracking-wider">% Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">
+                        Building Digital <span class="gradient-text">Excellence</span>
+                    </h2>
+                    <div class="space-y-4 text-slate-400 leading-relaxed">
+                        <p>
+                            Based in Karachi, Pakistan, I'm a specialized Frontend Developer with deep expertise in Advanced CMS Development. I bridge the gap between design and functionality, creating websites that not only look stunning but perform flawlessly.
+                        </p>
+                        <p>
+                            My approach combines technical precision with creative problem-solving. Whether it's a complex e-commerce platform, a dynamic corporate website, or a custom web application, I deliver solutions that drive results and exceed expectations.
+                        </p>
+                        <p>
+                            I specialize in headless CMS architectures, custom theme development, and performance optimization—ensuring your digital presence is fast, secure, and scalable.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <div class="flex items-center gap-2 text-sm text-slate-300">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Performance Optimized
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-300">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            SEO Friendly
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-300">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Responsive Design
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative reveal" style="transition-delay: 0.2s">
+                    <div class="relative rounded-2xl overflow-hidden gradient-border p-1">
+                        <div class="bg-slate-900 rounded-2xl p-8 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
+                            <div class="relative z-10 grid grid-cols-2 gap-4">
+                                <div class="glass rounded-xl p-4 text-center">
+                                    <div class="text-3xl font-bold text-white mb-1">Frontend</div>
+                                    <div class="text-xs text-slate-400">React, Vue, Next.js</div>
+                                </div>
+                                <div class="glass rounded-xl p-4 text-center">
+                                    <div class="text-3xl font-bold text-white mb-1">CMS</div>
+                                    <div class="text-xs text-slate-400">WordPress, Strapi, Sanity</div>
+                                </div>
+                                <div class="glass rounded-xl p-4 text-center">
+                                    <div class="text-3xl font-bold text-white mb-1">E-Commerce</div>
+                                    <div class="text-xs text-slate-400">Shopify, WooCommerce</div>
+                                </div>
+                                <div class="glass rounded-xl p-4 text-center">
+                                    <div class="text-3xl font-bold text-white mb-1">Custom</div>
+                                    <div class="text-xs text-slate-400">Plugins, Themes, APIs</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Decorative Elements -->
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl"></div>
+                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary/20 rounded-full blur-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Technical <span class="gradient-text">Expertise</span></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Mastering modern technologies to deliver cutting-edge web solutions</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Frontend -->
+                <div class="glass rounded-2xl p-6 reveal group hover:border-primary/50 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-3 text-white">Frontend Development</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">React.js</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Next.js</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">TypeScript</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Tailwind CSS</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">GSAP</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Three.js</span>
+                    </div>
+                </div>
+
+                <!-- CMS -->
+                <div class="glass rounded-2xl p-6 reveal group hover:border-secondary/50 transition-colors" style="transition-delay: 0.1s">
+                    <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-3 text-white">CMS Development</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">WordPress</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Strapi</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Sanity.io</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Contentful</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Prismic</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Webflow</span>
+                    </div>
+                </div>
+
+                <!-- E-Commerce -->
+                <div class="glass rounded-2xl p-6 reveal group hover:border-accent/50 transition-colors" style="transition-delay: 0.2s">
+                    <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-xl font-semibold mb-3 text-white">E-Commerce</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Shopify</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">WooCommerce</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">BigCommerce</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Stripe</span>
+                        <span class="skill-tag px-3 py-1 rounded-full bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700">Payment APIs</span>
+                    </div>
+                </div>
+
+                <!-- Backend & Tools -->
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-32 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6 reveal">
+                <div>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Featured <span class="gradient-text">Projects</span></h2>
+                    <p class="text-slate-400 max-w-xl">A selection of my recent work showcasing advanced CMS solutions and frontend development</p>
+                </div>
+                
+                <div class="flex gap-2 flex-wrap">
+                    <button onclick="filterProjects('all')" class="filter-btn active px-4 py-2 rounded-full text-sm font-medium transition-all bg-white text-darker" data-filter="all">All</button>
+                    <button onclick="filterProjects('cms')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all glass text-slate-300 hover:text-white" data-filter="cms">CMS</button>
+                    <button onclick="filterProjects('ecommerce')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all glass text-slate-300 hover:text-white" data-filter="ecommerce">E-Commerce</button>
+                    <button onclick="filterProjects('webapp')" class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all glass text-slate-300 hover:text-white" data-filter="webapp">Web Apps</button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsGrid">
+                <!-- Project 1 -->
+                <article class="project-card group relative rounded-2xl overflow-hidden gradient-border reveal" data-category="cms">
+                    <div class="card-shine"></div>
+                    <div class="relative h-64 bg-slate-800 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-6xl font-display font-bold text-white/10">01</div>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-medium border border-primary/20">Headless CMS</span>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-slate-900/50 backdrop-blur-sm">
+                        <h3 class="font-display text-xl font-semibold text-white mb-2 group-hover:text-primary transition-colors">Nexus Corporate Portal</h3>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-2">Enterprise-grade headless CMS solution built with Next.js and Strapi, featuring real-time collaboration and custom workflows.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs text-slate-500">Next.js</span>
+                            <span class="text-xs text-slate-500">•</span>
+                            <span class="text-xs text-slate-500">Strapi</span>
+                            <span class="text-xs text-slate-500">•</span>
+                            <span class="text-xs text-slate-500">PostgreSQL</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-center text-sm font-medium text-white transition-colors magnetic-target">View Case</a>
+                            <a href="#" class="flex-1 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-center text-sm font-medium text-primary transition-colors magnetic-target">Live Site</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="project-card group relative rounded-2xl overflow-hidden gradient-border reveal" style="transition-delay: 0.1s" data-category="ecommerce">
+                    <div class="card-shine"></div>
+                    <div class="relative h-64 bg-slate-800 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-secondary/20 to-accent/20"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-6xl font-display font-bold text-white/10">02</div>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1 rounded-full bg-secondary/20 text-secondary text-xs font-medium border border-secondary/20">E-Commerce</span>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-slate-900/50 backdrop-blur-sm">
+                        <h3 class="font-display text-xl font-semibold text-white mb-2 group-hover:text-secondary transition-colors">Luxe Fashion Store</h3>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-2">High-performance Shopify Plus store with custom theme development, AR product preview, and advanced filtering system.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs text-slate-500">Shopify Plus</span>
+                            <span class="text-xs text-slate-500">•</span>
+                            <span class="text-xs text-slate-500">Liquid</span>
+                            <span class="text-xs text-slate-500">•</span>
+                            <span class="text-xs text-slate-500">Vue.js</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-center text-sm font-medium text-white transition-colors magnetic-target">View Case</a>
+                            <a href="#" class="flex-1 py-2 rounded-lg bg-secondary/10 hover:bg-secondary/20 text-center text-sm font-medium text-secondary transition-colors magnetic-target">Live Site</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="project-card group relative rounded-2xl overflow-hidden gradient-border reveal" style="transition-delay: 0.2s" data-category="webapp">
+                    <div class="card-shine"></div>
+                    <div class="relative h-64 bg-slate-800 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-primary/20"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-6xl font-display font-bold text-white/10">03</div>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium border border-accent/20">Web App</span>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-slate-900/50 backdrop-blur-sm">
+                        <h3 class="font-display text-xl font-semibold text-white mb-2 group-hover:text-accent transition-colors">TaskFlow Pro</h3>
+                        <p class="text-slate-400 text-sm mb-4 line-clamp-2">Project management SaaS platform with real-time updates, team collaboration features, and custom workflow automation.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs text-slate-500">React</span>
+                            <span class="text-xs text-slate-500">•</span>
+                            <span class="text-xs text-slate-500">Node.js</span>
+                            <span class="text-xs text-slate-500">•</span>
+                            <span class="text-xs text-slate-500">Socket.io</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="#" class="flex-1 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-center text-sm font-medium text-white transition-colors magnetic-target">View Case</a>
+                            <a href="#" class="flex-1 py-2 rounded-lg bg-accent/10 hover:bg-accent/20 text-center text-sm font-medium text-accent transition-colors magnetic-target">Live Site</a>
+                        </div>
+                    </div>
+                </article>
+
+               
+            </div>
+
+            <div class="mt-16 text-center reveal">
+                <a href="#" class="magnetic-btn inline-flex items-center gap-2 px-8 py-4 rounded-full glass text-white font-semibold hover:bg-white/10 transition-colors magnetic-target">
+                    View All Projects
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-4">Let's Work <span class="gradient-text">Together</span></h2>
+                <p class="text-slate-400">Have a project in mind? Let's create something amazing.</p>
+            </div>
+
+            <div class="glass rounded-3xl p-8 md:p-12 reveal">
+                <form id="contactForm" onsubmit="handleSubmit(event)" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300">Name</label>
+                            <input type="text" required class="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="John Doe">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300">Email</label>
+                            <input type="email" required class="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="john@example.com">
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300">Project Type</label>
+                        <select class="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+                            <option>CMS Development</option>
+                            <option>E-Commerce Solution</option>
+                            <option>Frontend Development</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300">Message</label>
+                        <textarea rows="4" required class="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none" placeholder="Tell me about your project..."></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-semibold hover:shadow-lg hover:shadow-primary/25 transition-all flex items-center justify-center gap-2 magnetic-target">
+                        <span>Send Message</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </button>
+                </form>
+
+                <div class="mt-12 pt-8 border-t border-slate-700/50 grid md:grid-cols-3 gap-8 text-center">
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div class="text-sm text-slate-400">Email</div>
+                        <a href="mailto:daniyallakhani23@gmail.com" class="text-white font-medium hover:text-primary transition-colors">daniyallakhani23@gmail.com</a>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div class="text-sm text-slate-400">Location</div>
+                        <div class="text-white font-medium">Karachi, Pakistan</div>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="text-sm text-slate-400">Availability</div>
+                        <div class="text-emerald-400 font-medium">Open for work</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-slate-800/50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <span class="font-display text-2xl font-bold gradient-text">DR.</span>
+                    <span class="text-slate-500">© 2024 Daniyal Raza. All rights reserved.</span>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors magnetic-target">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors magnetic-target">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors magnetic-target">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-8 right-8 transform translate-y-20 opacity-0 transition-all duration-500 z-50">
+        <div class="glass px-6 py-4 rounded-xl border-l-4 border-emerald-500 flex items-center gap-3">
+            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <div>
+                <div class="font-semibold text-white">Message Sent!</div>
+                <div class="text-sm text-slate-400">I'll get back to you soon.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Register GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+                initAnimations();
+            }, 1000);
+        });
+
+        // Custom Cursor
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        let mouseX = 0, mouseY = 0;
+        let outlineX = 0, outlineY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+
+        function animateCursor() {
+            outlineX += (mouseX - outlineX) * 0.15;
+            outlineY += (mouseY - outlineY) * 0.15;
+            
+            cursorOutline.style.left = outlineX + 'px';
+            cursorOutline.style.top = outlineY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Magnetic Effect
+        document.querySelectorAll('.magnetic-target').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('cursor-hover');
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('cursor-hover');
+                el.style.transform = '';
+            });
+            
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+        });
+
+        // Typewriter Effect
+        const phrases = ['Frontend Developer', 'CMS Specialist', 'React Expert', 'UI/UX Enthusiast'];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typewriterElement = document.getElementById('typewriter');
+
+        function typeWriter() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeWriter, typeSpeed);
+        }
+        setTimeout(typeWriter, 1000);
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = scrolled / maxScroll;
+            document.getElementById('scrollProgress').style.transform = `scaleX(${progress})`;
+            
+            // Navbar visibility
+            const navbar = document.getElementById('navbar');
+            if (scrolled > 100) {
+                navbar.classList.remove('nav-hidden');
+                navbar.classList.add('nav-visible');
+            } else {
+                navbar.classList.add('nav-hidden');
+                navbar.classList.remove('nav-visible');
+            }
+        });
+
+        // Initialize Animations
+        function initAnimations() {
+            // Reveal animations
+            gsap.utils.toArray('.reveal').forEach((elem, i) => {
+                gsap.fromTo(elem, 
+                    { opacity: 0, y: 50 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 85%",
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+
+            // Stats counter animation
+            gsap.utils.toArray('.stat-number').forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                gsap.to(stat, {
+                    innerHTML: target,
+                    duration: 2,
+                    ease: "power2.out",
+                    snap: { innerHTML: 1 },
+                    scrollTrigger: {
+                        trigger: stat,
+                        start: "top 80%"
+                    }
+                });
+            });
+        }
+
+        // Project Filtering
+        function filterProjects(category) {
+            // Update buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === category) {
+                    btn.classList.remove('glass', 'text-slate-300');
+                    btn.classList.add('bg-white', 'text-darker');
+                } else {
+                    btn.classList.add('glass', 'text-slate-300');
+                    btn.classList.remove('bg-white', 'text-darker');
+                }
+            });
+
+            // Filter items
+            const projects = document.querySelectorAll('#projectsGrid article');
+            projects.forEach(project => {
+                if (category === 'all' || project.dataset.category === category) {
+                    gsap.to(project, { opacity: 1, scale: 1, duration: 0.4, display: 'block' });
+                } else {
+                    gsap.to(project, { 
+                        opacity: 0, 
+                        scale: 0.8, 
+                        duration: 0.4, 
+                        onComplete: () => project.style.display = 'none'
+                    });
+                }
+            });
+        }
+
+        // Mobile Menu
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        // Form Handling
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                document.getElementById('contactForm').reset();
+                showToast();
+            }, 2000);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function downloadCV() {
+    const link = document.createElement('a');
+    link.href = '/cv/Daniyal_Raza_CV_Updated.pdf'; // ✅ correct path
+    link.download = 'Daniyal_Raza_CV_Updated.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Notification
+    const notification = document.createElement('div');
+    notification.className = 'fixed bottom-8 left-8 glass px-6 py-4 rounded-xl border-l-4 border-primary transform -translate-x-full transition-transform duration-500 z-50';
+    notification.innerHTML = `
+        <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3"/>
+            </svg>
+            <div>
+                <div class="font-semibold text-white">Downloading CV</div>
+                <div class="text-sm text-slate-400">Daniyal_Raza_CV.pdf</div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => notification.classList.remove('-translate-x-full'), 100);
+    setTimeout(() => {
+        notification.classList.add('-translate-x-full');
+        setTimeout(() => notification.remove(), 500);
+    }, 3000);
+}
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Parallax effect for hero
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            
+            gsap.to('.hero-bg', {
+                x: moveX,
+                y: moveY,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+    </script>
+</body>
+</html>
