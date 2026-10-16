@@ -3076,30 +3076,17 @@ body {
 <div class="cur" aria-hidden="true"><div class="cur-ring"></div><div class="cur-dot"></div></div>
 <div class="grain" aria-hidden="true"></div>
 
-<!-- law cap: floats along the page as you scroll -->
+<!-- dev badge: floats along the page as you scroll -->
 <div class="cap" id="cap" aria-hidden="true"><div class="cap-tilt"><div class="cap-in">
 <svg viewBox="0 0 170 140" focusable="false" aria-hidden="true">
   <defs>
-    <linearGradient id="capBoard" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#3a3430"/><stop offset=".5" stop-color="#17130f"/><stop offset="1" stop-color="#0b0907"/>
-    </linearGradient>
-    <linearGradient id="capBase" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#0d0b09"/><stop offset=".5" stop-color="#26201b"/><stop offset="1" stop-color="#0d0b09"/>
-    </linearGradient>
-    <linearGradient id="capGold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f1d9a8"/><stop offset=".5" stop-color="#c4a77b"/><stop offset="1" stop-color="#8c6748"/>
-    </linearGradient>
+    <linearGradient id="capBoard" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3430"/><stop offset=".5" stop-color="#17130f"/><stop offset="1" stop-color="#0b0907"/></linearGradient>
+    <linearGradient id="capGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1d9a8"/><stop offset=".5" stop-color="#c4a77b"/><stop offset="1" stop-color="#8c6748"/></linearGradient>
   </defs>
-  <path d="M40 66 V100 Q85 126 130 100 V66 Q85 88 40 66 Z" fill="url(#capBase)" stroke="#c4a77b" stroke-width="1.4" stroke-linejoin="round"/>
-  <path d="M44 84 Q85 106 126 84" fill="none" stroke="#c4a77b" stroke-opacity=".35" stroke-width="1"/>
-  <polygon points="85,18 160,48 85,78 10,48" fill="url(#capBoard)" stroke="#c4a77b" stroke-width="1.6" stroke-linejoin="round"/>
-  <path d="M85 18 L160 48 L85 78" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="3"/>
-  <path d="M30 48 L85 26" stroke="#fff" stroke-opacity=".12" stroke-width="2" stroke-linecap="round"/>
-  <path d="M85 48 C112 54 132 52 146 52" fill="none" stroke="url(#capGold)" stroke-width="2.2" stroke-linecap="round"/>
-  <path d="M146 52 V98" stroke="url(#capGold)" stroke-width="2" stroke-linecap="round"/>
-  <path d="M146 96 L141 124 H151 Z" fill="url(#capGold)"/>
-  <path d="M143 104 L141 124 M146 104 V124 M149 104 L151 124" stroke="#8c6748" stroke-width=".8"/>
-  <circle cx="85" cy="48" r="5.4" fill="url(#capGold)"/>
+  <circle cx="85" cy="70" r="54" fill="url(#capBoard)" stroke="url(#capGold)" stroke-width="3"/>
+  <circle cx="85" cy="70" r="45" fill="none" stroke="#c4a77b" stroke-opacity=".35" stroke-width="1" stroke-dasharray="2 5"/>
+  <path d="M64 52 L46 70 L64 88 M106 52 L124 70 L106 88 M93 46 L77 94" fill="none" stroke="url(#capGold)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="85" cy="16" r="4" fill="url(#capGold)"/><circle cx="139" cy="70" r="3" fill="url(#capGold)"/>
 </svg></div></div></div>
 
 <div class="hz" id="top">
@@ -3492,38 +3479,37 @@ body {
         <div class="hint-art" aria-hidden="true">
           <div class="hint-glow"></div>
           
-<svg class="scales-svg" viewBox="0 0 620 440" role="img" aria-label="Scales of justice" focusable="false">
+<svg class="scales-svg" viewBox="0 0 620 440" role="img" aria-label="Code and design illustration" focusable="false">
   <defs>
     <linearGradient id="sm-hero" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="620" y2="440">
       <stop offset="0" class="sm0"/><stop offset=".32" class="sm1"/><stop offset=".57" class="sm2"/><stop offset=".8" class="sm3"/><stop offset="1" class="sm4"/>
     </linearGradient>
-    <linearGradient id="sp-hero" gradientUnits="userSpaceOnUse" x1="0" y1="263" x2="0" y2="328">
+    <linearGradient id="sp-hero" gradientUnits="userSpaceOnUse" x1="0" y1="190" x2="0" y2="280">
       <stop offset="0" class="sf0"/><stop offset="1" class="sf1"/>
     </linearGradient>
   </defs>
   <ellipse class="sc-shadow" cx="310" cy="402" rx="150" ry="13"/>
   <g class="sc-metal" fill="none" stroke="url(#sm-hero)" stroke-linecap="round" stroke-linejoin="round">
-    <path stroke-width="5" d="M310 88 L310 350"/>
-    <path stroke-width="7" d="M242 365 L378 365 M263 350 L357 350"/>
-    <path stroke-width="4" d="M276 365 L257 397 L363 397 L344 365 M286 397 L334 397"/>
-    <circle class="sc-knob" cx="310" cy="82" r="20" stroke-width="4"/>
-    <circle cx="310" cy="82" r="8" stroke-width="2"/>
-    <path stroke-width="3" d="M310 102 L310 119"/>
+    <rect class="sc-knob" x="215" y="150" width="190" height="150" rx="14" stroke-width="4"/>
+    <path stroke-width="2.5" d="M215 182 H405"/>
+    <circle class="sc-dot" cx="236" cy="166" r="4.5"/><circle class="sc-dot" cx="254" cy="166" r="4.5"/><circle class="sc-dot" cx="272" cy="166" r="4.5"/>
+    <path stroke-width="4" d="M238 208 H300 M254 228 H346 M254 248 H306 M238 268 H330"/>
+    <path stroke-width="5" d="M310 300 V345"/>
+    <path stroke-width="7" d="M245 362 H375 M268 345 H352"/>
+    <path stroke-width="4" d="M276 362 L260 397 L360 397 L344 362"/>
     <g class="sc-beam">
-      <path stroke-width="7" d="M100 126 L520 126"/>
+      <path stroke-width="2.5" stroke-dasharray="3 10" d="M100 126 Q310 20 520 126"/>
       <circle class="sc-dot" cx="100" cy="126" r="7"/>
       <circle class="sc-dot" cx="520" cy="126" r="7"/>
-      <circle class="sc-knob" cx="310" cy="126" r="12" stroke-width="4"/>
     </g>
     <g class="sc-pan sc-pan-l">
-      <path stroke-width="2.5" d="M100 128 L53 263 M100 128 L147 263"/>
-      <path d="M18 263 Q100 328 182 263 Z" fill="url(#sp-hero)" stroke-width="3"/>
-      <path stroke-width="2" d="M18 263 L182 263"/>
+      <rect x="40" y="190" width="120" height="90" rx="16" fill="url(#sp-hero)" stroke-width="3"/>
+      <path stroke-width="5" d="M82 220 L64 235 L82 250 M118 220 L136 235 L118 250 M106 214 L94 256"/>
     </g>
     <g class="sc-pan sc-pan-r">
-      <path stroke-width="2.5" d="M520 128 L473 263 M520 128 L567 263"/>
-      <path d="M438 263 Q520 328 602 263 Z" fill="url(#sp-hero)" stroke-width="3"/>
-      <path stroke-width="2" d="M438 263 L602 263"/>
+      <rect x="460" y="190" width="120" height="90" rx="16" fill="url(#sp-hero)" stroke-width="3"/>
+      <path stroke-width="3" fill="url(#sp-hero)" d="M505 212 L505 258 L516 247 L525 268 L534 264 L525 244 L541 244 Z"/>
+      <circle class="sc-dot" cx="556" cy="214" r="6"/><circle class="sc-dot" cx="556" cy="234" r="6" opacity=".6"/><circle class="sc-dot" cx="556" cy="254" r="6" opacity=".35"/>
     </g>
   </g>
 </svg>
@@ -3669,38 +3655,37 @@ body {
           <div class="std-ring std-ring--b"></div>
           <div class="std-ticks"></div>
           
-<svg class="scales-svg" viewBox="0 0 620 440" role="img" aria-label="Scales of justice" focusable="false">
+<svg class="scales-svg" viewBox="0 0 620 440" role="img" aria-label="Code and design illustration" focusable="false">
   <defs>
     <linearGradient id="sm-std" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="620" y2="440">
       <stop offset="0" class="sm0"/><stop offset=".32" class="sm1"/><stop offset=".57" class="sm2"/><stop offset=".8" class="sm3"/><stop offset="1" class="sm4"/>
     </linearGradient>
-    <linearGradient id="sp-std" gradientUnits="userSpaceOnUse" x1="0" y1="263" x2="0" y2="328">
+    <linearGradient id="sp-std" gradientUnits="userSpaceOnUse" x1="0" y1="190" x2="0" y2="280">
       <stop offset="0" class="sf0"/><stop offset="1" class="sf1"/>
     </linearGradient>
   </defs>
   <ellipse class="sc-shadow" cx="310" cy="402" rx="150" ry="13"/>
   <g class="sc-metal" fill="none" stroke="url(#sm-std)" stroke-linecap="round" stroke-linejoin="round">
-    <path stroke-width="5" d="M310 88 L310 350"/>
-    <path stroke-width="7" d="M242 365 L378 365 M263 350 L357 350"/>
-    <path stroke-width="4" d="M276 365 L257 397 L363 397 L344 365 M286 397 L334 397"/>
-    <circle class="sc-knob" cx="310" cy="82" r="20" stroke-width="4"/>
-    <circle cx="310" cy="82" r="8" stroke-width="2"/>
-    <path stroke-width="3" d="M310 102 L310 119"/>
+    <rect class="sc-knob" x="215" y="150" width="190" height="150" rx="14" stroke-width="4"/>
+    <path stroke-width="2.5" d="M215 182 H405"/>
+    <circle class="sc-dot" cx="236" cy="166" r="4.5"/><circle class="sc-dot" cx="254" cy="166" r="4.5"/><circle class="sc-dot" cx="272" cy="166" r="4.5"/>
+    <path stroke-width="4" d="M238 208 H300 M254 228 H346 M254 248 H306 M238 268 H330"/>
+    <path stroke-width="5" d="M310 300 V345"/>
+    <path stroke-width="7" d="M245 362 H375 M268 345 H352"/>
+    <path stroke-width="4" d="M276 362 L260 397 L360 397 L344 362"/>
     <g class="sc-beam">
-      <path stroke-width="7" d="M100 126 L520 126"/>
+      <path stroke-width="2.5" stroke-dasharray="3 10" d="M100 126 Q310 20 520 126"/>
       <circle class="sc-dot" cx="100" cy="126" r="7"/>
       <circle class="sc-dot" cx="520" cy="126" r="7"/>
-      <circle class="sc-knob" cx="310" cy="126" r="12" stroke-width="4"/>
     </g>
     <g class="sc-pan sc-pan-l">
-      <path stroke-width="2.5" d="M100 128 L53 263 M100 128 L147 263"/>
-      <path d="M18 263 Q100 328 182 263 Z" fill="url(#sp-std)" stroke-width="3"/>
-      <path stroke-width="2" d="M18 263 L182 263"/>
+      <rect x="40" y="190" width="120" height="90" rx="16" fill="url(#sp-std)" stroke-width="3"/>
+      <path stroke-width="5" d="M82 220 L64 235 L82 250 M118 220 L136 235 L118 250 M106 214 L94 256"/>
     </g>
     <g class="sc-pan sc-pan-r">
-      <path stroke-width="2.5" d="M520 128 L473 263 M520 128 L567 263"/>
-      <path d="M438 263 Q520 328 602 263 Z" fill="url(#sp-std)" stroke-width="3"/>
-      <path stroke-width="2" d="M438 263 L602 263"/>
+      <rect x="460" y="190" width="120" height="90" rx="16" fill="url(#sp-std)" stroke-width="3"/>
+      <path stroke-width="3" fill="url(#sp-std)" d="M505 212 L505 258 L516 247 L525 268 L534 264 L525 244 L541 244 Z"/>
+      <circle class="sc-dot" cx="556" cy="214" r="6"/><circle class="sc-dot" cx="556" cy="234" r="6" opacity=".6"/><circle class="sc-dot" cx="556" cy="254" r="6" opacity=".35"/>
     </g>
   </g>
 </svg>
